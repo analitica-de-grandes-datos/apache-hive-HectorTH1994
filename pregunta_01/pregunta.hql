@@ -29,7 +29,8 @@ select letra, count(*)
 from datos
 group by letra;
 
-INSERT OVERWRITE DIRECTORY './output'
+INSERT OVERWRITE LOCAL DIRECTORY './output'
 ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
 SELECT * FROM word_counts;
+
 
