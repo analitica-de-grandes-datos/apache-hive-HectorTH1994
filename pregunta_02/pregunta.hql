@@ -25,9 +25,9 @@ DESCRIBE datos;
 DROP TABLE IF EXISTS word_counts;
 CREATE TABLE word_counts
 AS
-select letra, count(*)
+select *
 from datos
-group by letra;
+order by letra, numero;
 
 INSERT OVERWRITE LOCAL DIRECTORY './output'
 ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
