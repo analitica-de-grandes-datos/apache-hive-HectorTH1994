@@ -27,9 +27,10 @@ CREATE TABLE word_counts
 AS
 select *
 from datos
-order by letra, numero;
+order by letra, numero, fecha;
 
 INSERT OVERWRITE LOCAL DIRECTORY './output'
 ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
 SELECT * FROM word_counts;
+
 
