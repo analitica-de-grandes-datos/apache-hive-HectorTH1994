@@ -47,3 +47,21 @@ LOAD DATA LOCAL INPATH 'data1.csv' INTO TABLE tbl1;
     >>> Escriba su respuesta a partir de este punto <<<
 */
 
+DROP TABLE IF EXISTS word_counts;
+CREATE TABLE word_counts
+AS
+SELECT c2 as ano, lista.value as liste
+FROM tbl0
+LATERAL VIEW explode(c6) lista as key, value;
+
+DROP TABLE IF EXISTS word_counts2;
+CREATE TABLE word_counts2
+AS
+select ano, sum(liste)
+from word_counts
+group by ano;
+
+
+INSERT OVERWRITE LOCAL DIRECTORY './output'
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+SELECT * FROM word_counts2;
