@@ -44,4 +44,21 @@ LOAD DATA LOCAL INPATH 'data1.csv' INTO TABLE tbl1;
 /*
     >>> Escriba su respuesta a partir de este punto <<<
 */
+DROP TABLE IF EXISTS word_counts;
+CREATE TABLE word_counts
+AS
+SELECT YEAR(c4) as ano, lista
+FROM tbl0
+LATERAL VIEW explode(c5) lista as lista;
 
+DROP TABLE IF EXISTS word_counts2;
+CREATE TABLE word_counts2
+AS
+select ano, lista, count(*)
+from word_counts
+group by ano, lista;
+
+
+INSERT OVERWRITE LOCAL DIRECTORY './output'
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+SELECT * FROM word_counts2;
