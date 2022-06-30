@@ -30,3 +30,20 @@ LOAD DATA LOCAL INPATH 'data.tsv' INTO TABLE t0;
     >>> Escriba su respuesta a partir de este punto <<<
 */
 
+DROP TABLE IF EXISTS word_counts;
+CREATE TABLE word_counts
+AS
+SELECT lista.key as c1
+FROM t0
+LATERAL VIEW explode(c3) lista as key, value;
+
+DROP TABLE IF EXISTS word_counts2;
+CREATE TABLE word_counts2
+AS
+select c1, count(*)
+from word_counts
+group by c1;
+
+INSERT OVERWRITE LOCAL DIRECTORY './output'
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+SELECT * FROM word_counts2;
