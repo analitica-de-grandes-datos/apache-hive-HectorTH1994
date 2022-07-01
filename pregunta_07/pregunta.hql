@@ -50,7 +50,7 @@ DROP TABLE IF EXISTS word_counts;
 CREATE TABLE word_counts
 AS
 SELECT c2, concat_ws(':',c1)
-FROM t0
+FROM tbl0
 group by c2;
 
 
