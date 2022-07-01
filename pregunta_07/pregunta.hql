@@ -49,7 +49,7 @@ LOAD DATA LOCAL INPATH 'data1.csv' INTO TABLE tbl1;
 DROP TABLE IF EXISTS word_counts;
 CREATE TABLE word_counts
 AS
-SELECT c2, CONCAT_WS(':',explode(collect_list(c1,':')))
+SELECT c2, CONCAT_WS(':',explode(collect_list(c1)))
 FROM tbl0
 group by c2;
 
