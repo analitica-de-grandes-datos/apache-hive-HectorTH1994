@@ -46,3 +46,25 @@ LOAD DATA LOCAL INPATH 'data1.csv' INTO TABLE tbl1;
     >>> Escriba su respuesta a partir de este punto <<<
 */
 
+DROP TABLE IF EXISTS word_counts;
+CREATE TABLE word_counts
+AS
+SELECT c1 c1, c2 c2, c3 c3, lista.value as c4,lista.key as c5
+FROM tbl1
+LATERAL VIEW explode(c4) lista as key, value;
+
+
+
+DROP TABLE IF EXISTS word_counts2;
+CREATE TABLE word_counts2
+AS
+SELECT tbl0.c1, tbl0.c2, word_counts.c4
+FROM tbl0
+INNER JOIN word_counts ON
+tbl0.c2 = word_counts.c5 and tbl0.c1 = word_counts.c1 ;
+
+
+
+INSERT OVERWRITE LOCAL DIRECTORY './output'
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+SELECT * FROM word_counts2;

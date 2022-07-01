@@ -46,3 +46,16 @@ LOAD DATA LOCAL INPATH 'data1.csv' INTO TABLE tbl1;
     >>> Escriba su respuesta a partir de este punto <<<
 */
 
+DROP TABLE IF EXISTS word_counts;
+CREATE TABLE word_counts
+AS
+SELECT c2, CONCAT_WS(':',explode(collect_list(c1)))
+FROM tbl0
+group by c2;
+
+
+
+INSERT OVERWRITE LOCAL DIRECTORY './output'
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+SELECT * FROM word_counts;
+

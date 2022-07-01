@@ -44,3 +44,19 @@ LOAD DATA LOCAL INPATH 'data1.csv' INTO TABLE tbl1;
 /*
     >>> Escriba su respuesta a partir de este punto <<<
 */
+DROP TABLE IF EXISTS word_counts;
+CREATE TABLE word_counts
+AS
+select explode(c5)
+from tbl0;
+
+
+DROP TABLE IF EXISTS word_counts2;
+CREATE TABLE word_counts2
+AS
+select distinct *
+from word_counts;
+
+INSERT OVERWRITE LOCAL DIRECTORY './output'
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+SELECT * FROM word_counts2;
